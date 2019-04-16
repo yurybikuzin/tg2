@@ -1256,14 +1256,16 @@ var $;
                                     let left = Math.max(0, Math.min(_atoms('width')() - infoWidth, leftOffset - (infoWidth / 2)));
                                     let needAdjustLeft = false;
                                     const avail_lefts = [];
-                                    if (!client_y_values.length) {
-                                        avail_lefts.push(left);
-                                    }
-                                    else {
-                                        const max_client_y = Math.max(...client_y_values);
-                                        const gridClientRect = grid_elem.dom_node().getBoundingClientRect();
-                                        if (max_client_y - 6 - gridClientRect.top >= infoClientRect.height - 5) {
+                                    if (chart_mode <= 1) {
+                                        if (!client_y_values.length) {
                                             avail_lefts.push(left);
+                                        }
+                                        else {
+                                            const max_client_y = Math.max(...client_y_values);
+                                            const gridClientRect = grid_elem.dom_node().getBoundingClientRect();
+                                            if (max_client_y - 6 - gridClientRect.top >= infoClientRect.height - 5) {
+                                                avail_lefts.push(left);
+                                            }
                                         }
                                     }
                                     let margin = chart_mode <= 1 ? 6 : 26;

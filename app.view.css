@@ -1,0 +1,383 @@
+/* ========================================================================= */
+
+/* @keyframes shake{
+  0%{transform:translateX(-4px)}
+  16.66%{transform:translateX(4px)}
+  33.33%{transform:translateX(-2px)}
+  50%{transform:translateX(2px)}
+  66.66%{transform:translateX(-1px)}
+  83.33%{transform:translateX(1px)}
+  to{transform:translateX(0)}
+}
+ */
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+html {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.tg2_atom_store {
+
+}
+body {
+  font-family: TgRoboto;
+  background: white; transition: background .5s;
+  height: 100%;
+  /* width: 100%; */
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  /* position: relative; */
+  /* position: fixed; */
+}
+
+#tg2-app-charts {
+  width: 100%;
+  /* display: flex; */
+  /* flex-wrap:  */
+  /* flex-direction: column; */
+  /* align-items: center; */
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tg2-chart {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+    width: 100%;
+  visibility: hidden;
+  position: relative;
+  float: left;
+}
+
+@media (min-width: 501px) {
+  .tg2-chart  {
+      width: 50%;
+  }
+}
+
+@media (min-width: 1001px) {
+  .tg2-chart  {
+      width: 33%;
+  }
+}
+
+@media (min-width: 1501px) {
+  .tg2-chart  {
+      width: 25%;
+  }
+}
+
+@media (min-width: 2001px) {
+  .tg2-chart  {
+      width: 20%;
+  }
+}
+
+
+.tg2-chart-header {
+  display: flex;
+  color: black; transition: color .5s;
+  align-items: flex-end;
+}
+
+.tg2-chart-title {
+  flex: 0 0 auto;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 13px;
+}
+
+.tg2-chart-label-container {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.tg2-chart-period {
+  flex: 0 0 auto;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 12px;
+  display: flex;
+  margin-right: 10px;
+  display: flex;
+  align-items: flex-end;
+}
+.tg2-chart-period-delim {
+  margin: 0 5px;
+}
+
+.tg2-chart-grid {
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.tg2-chart-vert-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: calc(100% - 24px);
+  border-right: 1px solid color(#182D3B a(10%));
+  opacity: 0; transition: opacity 0.1s, width 0.1s;
+  box-sizing: border-box;
+}
+
+.tg2-chart-selector-point {
+  opacity: 0;
+  position: absolute;
+  height: 12px;
+  width: 12px;
+  border-radius: 6px;
+  border: 3px solid red;
+  box-sizing: border-box;
+  background: white; transition: background .5s;
+}
+
+.tg2-chart-info {
+  pointer-events: none;
+  background: white;
+  position: absolute;
+  top: 20px;
+  border-radius: 9px;
+  box-shadow: 0 1px 4px 0 #CCC;
+  font-size: 12px;
+  opacity: 0;
+  padding: 12px;
+  min-width: 160px;
+  box-sizing: border-box;
+  color: black;
+}
+
+.tg2-chart-info-header {
+  font-weight: 500;
+  margin-bottom: 1px;
+}
+
+.tg2-chart-info-body {
+  font-weight: normal;
+}
+
+.tg2-chart-info-item {
+  margin-top: 8px;
+  display: flex;
+}
+
+.tg2-chart-info-item-name {
+  flex: 1 1 auto;
+}
+
+.tg2-chart-info-item-count {
+  flex: 0 0 auto;
+}
+
+.tg2-chart-scroll {
+  border-radius: 6px;
+  position: relative;
+  & > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
+  & > canvas {
+    border-radius: 6px 6px 6px 6px;
+  }
+}
+.tg2-chart-scroll-left, .tg2-chart-scroll-right {
+  opacity: 0.6;
+  background: #E2EEF9; transition: background 0.5s;
+}
+.tg2-chart-scroll-mid {
+  color: #C0D1E1;
+  /* path { fill: #C0D1E1 } */
+}
+.tg2-chart-scroll-left {
+  border-radius: 6px 0 0 6px;
+}
+.tg2-chart-scroll-right {
+  border-radius: 0 6px 6px 0;
+}
+
+.tg2-chart-check-box-bar {
+  padding-left: 11px;
+  padding-right: 11px;
+  position: relative;
+}
+
+.tg2-chart-checkbox {
+  box-sizing: border-box;
+  display: block;
+  position: relative;
+  float: left;
+  /* border: 1px solid #e6ecf0; */
+  border-radius: 20px;
+
+  padding: 10px 14px 10px 29px;
+
+  margin-right: 14px;
+  /* margin-top: 12px; */
+  cursor: pointer;
+  font-size: 13px;
+
+  /* color: #43484b; */
+  color: white;
+  height: 100%;
+
+  margin-top: 14px;
+}
+
+.tg2-chart-checkbox.shake {
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.tg2-chart-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.tg2-chart-checkbox-circle {
+    box-sizing: border-box;
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 1px solid #3cc23f;
+    transition: border-width 0.3s linear;
+}
+
+.tg2-chart-checkbox[tg2-checked] .tg2-chart-checkbox-circle {
+    border-width: 10px;
+}
+
+.tg2-chart-checkbox-symbol {
+    position: absolute;
+    display: block;
+    left: 12px;
+    top: 12px;
+
+    width: 12px;
+    height: 12px;
+
+    background-image: url('../check.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    -webkit-transform: scale(0.1, 0.1);
+    -ms-transform: scale(0.1, 0.1);
+    transform: scale(0.1, 0.1);
+
+    opacity: 0;
+    transition: opacity 0.3s linear, transform 0.3s linear;
+}
+
+.tg2-chart-checkbox[tg2-checked] .tg2-chart-checkbox-symbol {
+    opacity: 1;
+    -webkit-transform: scale(1, 1);
+    -ms-transform: scale(1, 1);
+    transform: scale(1, 1);
+}
+
+.tg2-app-mode-night {
+  background: #242F3D;
+  .tg2-chart-info {
+    background: #242F3D;
+    box-shadow-color: #222A36;
+    color: white;
+  }
+  .tg2-chart-selector-point {
+    background: #242F3D;
+  }
+  .tg2-chart-header {
+    color: white;
+  }
+  #tg2-app-mode-switcher-label-day {
+    opacity: 0;
+  }
+  #tg2-app-mode-switcher-label-night {
+    opacity: 1;
+  }
+  .tg2-chart-scroll-selector-left,
+  .tg2-chart-scroll-selector-right {
+    background: #56626D;
+  }
+  .tg2-chart-scroll-mid {
+    border-color: #56626D;
+  }
+  .tg2-chart-scroll-left, .tg2-chart-scroll-right {
+    background: #304259;
+  }
+}
+
+/* .tg2-chart-check-box-bar {
+  border: 1px solid green;
+}
+ */
+
+#tg2-app-mode-switcher {
+  user-select: none;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: inherit;
+  visibility: hidden;
+  /* border: 1px solid yellow; */
+}
+
+#tg2-app-mode-switcher-label {
+  position: relative;
+}
+
+#tg2-app-mode-switcher-label-day {
+  color: #0081DE;
+  opacity: 1; transition: opacity 0.5s;
+}
+#tg2-app-mode-switcher-label-night {
+  color: #4FAEF2;
+  opacity: 0; transition: opacity 0.5s;
+}
+
+#tg2-app-mode-switcher-label > *:last-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+

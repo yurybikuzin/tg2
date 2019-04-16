@@ -187,7 +187,7 @@ try {
     modeSwitcherLabelClientRect = modeSwitcherLabel.getBoundingClientRect()
 
     var space = Math.max(0, innerHeight - modeSwitcherHeight - minHeight)
-    var marginBottom = innerHeight > 500 ? 0 : Math.min(Math.round(minHeight / 2), Math.max(modeSwitcherHeight, space - marginTop))
+    var marginBottom = Math.max(modeSwitcherHeight, innerHeight > 500 ? 0 : Math.min(Math.round(minHeight / 2), Math.max(modeSwitcherHeight, space - marginTop)))
 
     for (var i = 0; i < charts.length; i++) {
       // if (only && only.indexOf(i) < 0) continue

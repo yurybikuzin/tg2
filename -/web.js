@@ -1921,10 +1921,11 @@ var $;
                 period_to_elem.updateDomProps({ innerText: toDate });
             }, { t: AtomType.force });
             _atoms.m('mainHeight', ['grid_height', 'previewMarginTop'], (v) => v(0) * pixelRatio - v(1));
-            _atoms.m('mainMinMaxY', ['xColumn', 'columns', 'mainMinMaxI'], (v) => {
+            _atoms.m('mainMinMaxY', ['xColumn', 'columns', 'mainMinMaxI', 'previewMinMaxY'], (v) => {
                 const xColumn = v.get('xColumn');
                 const columns = v.get('columns');
                 const mainMinMaxI = v.get('mainMinMaxI');
+                const previewMinMaxY = v('previewMinMaxY');
                 const alpha_grid = _atoms('alpha_grid')();
                 const result = {
                     min: forceMinY !== undefined ? forceMinY : Number.MAX_VALUE,
@@ -1942,7 +1943,7 @@ var $;
                         if (total_max < total)
                             total_max = total;
                     }
-                    const result = { min: 0, max: Math.round(total_max / _atoms('previewMinMaxY')().max * 100) };
+                    const result = { min: 0, max: Math.round(total_max / previewMinMaxY.max * 100) };
                     play({ name: 'mainMinY', toValue: result.min });
                     play({ name: 'mainMaxY', toValue: result.max });
                     _atoms('mainRangeY')((result.max - result.min) || 0);
@@ -2148,12 +2149,30 @@ var $;
                     'mainMinMaxY2',
                     'mainOffsetY2',
                     'mainScaleY2',
+                    'previewMaxY',
                 ],
                 value(p, val) {
                     val = void 0;
                     const ctx_atom_state = p.atoms().grid_canvas_context.state();
                     const v = p.values();
+                    const invalid_atoms = Object.keys(p.atoms()).filter(name => p.atoms()[name].state() == AtomState.invalid);
+                    if (!v) {
+                        const atoms = p.atoms();
+                        if (grid_renderer_raf === void 0)
+                            grid_renderer_raf = setTimeout(() => {
+                                grid_renderer_raf = void 0;
+                                let grid_renderer_invalid_masters;
+                                try {
+                                    grid_renderer_invalid_masters = Object.keys(atoms).filter(key => !atoms[key].is_valid_value(atoms[key].value()));
+                                }
+                                catch (err) {
+                                    console.error(err);
+                                }
+                                console.warn('grid_renderer', grid_renderer_invalid_masters);
+                            }, 100);
+                    }
                     if (v) {
+                        clearTimeout(grid_renderer_raf);
                         const xColumn = v('xColumn');
                         const columns = v('columns');
                         const paddingHor = v('paddingHor');
@@ -2229,6 +2248,7 @@ var $;
                             const i_min = mainMinMaxI.min;
                             const i_max = mainMinMaxI.max;
                             const scaleY = mainScaleY;
+                            const previewMaxY = v('previewMaxY');
                             const offsetY = mainOffsetY;
                             const scaleX = mainScaleX;
                             const offsetX = mainOffsetX;
@@ -2241,7 +2261,7 @@ var $;
                                 const x = Math.round((xColumn.data[i] - intervalX / 2) * scaleX + offsetX);
                                 let total = 0;
                                 for (var c = 0; c < columns.length; c++) {
-                                    const h = 100 * columns[c].data[i] * alpha_grid[c].value / previewMinMaxY.max;
+                                    const h = 100 * columns[c].data[i] * alpha_grid[c].value / previewMaxY.value;
                                     const height = Math.round(-h * scaleY);
                                     const y = Math.round(drawAreaHeight - height + total * scaleY);
                                     ctx.fillStyle = columns[c].color;

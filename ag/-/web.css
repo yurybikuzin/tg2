@@ -234,6 +234,7 @@ body {
   margin-top: 10px;
   position: relative;
   display: flex;
+  flex-wrap: wrap;
 }
 
 /* .ag-chart-checkbox {

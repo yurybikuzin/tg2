@@ -1677,14 +1677,14 @@ var $;
                     _atoms('oldTextX_delta')(_atoms('newTextX_delta')());
                     play({ name: 'oldTextX_alpha', fromValue: 1, toValue: 1 });
                     _atoms('newTextX_delta')(delta);
-                    play({ name: 'newTextX_alpha', toValue: 1, fromValue: 0 });
+                    play({ name: 'newTextX_alpha', toValue: 1, fromValue: 1 });
                 }
                 else if (delta > newTextX_delta) {
                     _atoms('oldTextX_delta')(newTextX_delta);
                     play({
                         name: 'oldTextX_alpha',
                         toValue: 0,
-                        fromValue: _atoms('newTextX_alpha')().value,
+                        fromValue: 0,
                     });
                     _atoms('newTextX_delta')(delta);
                     play({ name: 'newTextX_alpha', toValue: 1, fromValue: 1 });
@@ -2309,7 +2309,7 @@ var $;
                                 grid_canvas_context.globalAlpha = alpha * xTextStyle[theme][chart_mode].opacity;
                                 if (skipStep)
                                     delta *= 2;
-                                var endI = Math.min(Math.ceil((mainMinMaxX.max + 1) / intervalX / delta) * delta, xColumn.data.length);
+                                var endI = Math.min(Math.ceil((mainMinMaxX.max + 1) / intervalX / delta) * delta, xColumn.data.length - 1);
                                 if (skipStep)
                                     endI -= delta;
                                 var startI = Math.max(mainMinMaxI.min - 1, 1);

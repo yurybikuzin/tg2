@@ -866,21 +866,21 @@ var $;
                         checks[c] = true;
                         const name = columns[c].name;
                         const color = columns[c].color;
-                        period_elem.updateDomStyle({ marginRight: '40px' });
                         const item = createElem({
-                            parent: period_elem,
+                            parent: check_box_bar_elem,
                             style: {
                                 display: 'flex',
+                                position: 'relative',
+                                marginRight: '16px'
                             }
                         });
                         createElem({ parent: item,
                             style: {
                                 width: '20px',
-                                marginLeft: '40px',
-                                marginRight: '10px',
+                                marginRight: '8px',
                                 borderTop: '4px solid ' + color,
                                 position: 'relative',
-                                top: '3px',
+                                top: '6px',
                             }
                         });
                         createElem({ parent: item,
@@ -1689,6 +1689,11 @@ var $;
                     _atoms('newTextX_delta')(delta);
                     play({ name: 'newTextX_alpha', toValue: 1, fromValue: 1 });
                 }
+                else {
+                    _atoms('oldTextX_delta')(newTextX_delta);
+                    play({ name: 'oldTextX_alpha', fromValue: 0, toValue: 0 });
+                    play({ name: 'newTextX_alpha', toValue: 1, fromValue: 1 });
+                }
                 return true;
             }, { t: AtomType.force });
             _atoms.m('mainScaleX', ['width', 'paddingHor', 'mainRangeX', 'intervalX'], (v) => {
@@ -1842,7 +1847,6 @@ var $;
                     toValue: 0,
                 });
                 newTextY_delta = Math.floor(val / textCountY);
-                console.log({ newTextY_delta, val, textCountY });
                 _atoms('newTextY_delta')(newTextY_delta);
                 play({
                     name: 'newTextY_alpha',
@@ -2069,11 +2073,6 @@ var $;
                                             u.push({ x: x[i], y: Math.min(...ys.map(y => y[i])) });
                                             d.push({ x: x[i], y: ys[0][i] });
                                         }
-                                        else if (i == x.length - 1) {
-                                            u.push({ x: x[i], y: Math.min(...ys.map(y => y[i])) });
-                                            d.push({ x: x[i], y: ys[0][i] });
-                                            fillRegion(u, d);
-                                        }
                                         else if (was_red) {
                                             const ip = intersection(x[i - 1], x[i], ys[1][i - 1], ys[1][i], ys[2][i - 1], ys[2][i]);
                                             if (ip)
@@ -2090,6 +2089,7 @@ var $;
                                                 }
                                                 else if (ip1.x > ip2.x) {
                                                     u.push(ip2);
+                                                    u.push({ x: x[i], y: y_min });
                                                     d.push({ x: x[i], y: ys[0][i] });
                                                 }
                                                 else {
@@ -2144,6 +2144,8 @@ var $;
                                     }
                                     was_red = is_red;
                                 }
+                                if (u.length && d.length)
+                                    fillRegion(u, d);
                             }
                             function fillRegion(u, d) {
                                 canvas.beginPath();
@@ -2307,7 +2309,7 @@ var $;
                                 grid_canvas_context.globalAlpha = alpha * xTextStyle[theme][chart_mode].opacity;
                                 if (skipStep)
                                     delta *= 2;
-                                var endI = Math.min(Math.ceil(mainMinMaxX.max / intervalX / delta) * delta, xColumn.data.length);
+                                var endI = Math.min(Math.ceil((mainMinMaxX.max + 1) / intervalX / delta) * delta, xColumn.data.length);
                                 if (skipStep)
                                     endI -= delta;
                                 var startI = Math.max(mainMinMaxI.min - 1, 1);

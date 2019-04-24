@@ -38,9 +38,9 @@ if (!window.requestAnimationFrame) (function() { // https://gist.github.com/jona
 window.addEventListener("load", function() {
   'use strict';
   try {
-    var chartsContainer = document.getElementById('ag-app-charts')
+    var chartContainer = document.getElementById('ag-app-chart')
     var chart = $.$$.ag_chart(0)
-    chartsContainer.appendChild(chart.dom_node())
+    chartContainer.appendChild(chart.dom_node())
     chart.props({
       title: 'Активности по году',
       data: {
@@ -87,5 +87,5 @@ window.addEventListener("load", function() {
 </script>
 
 <body>
-  <div id="ag-app-charts"></div>
+  <div id="ag-app-chart"></div>
 </body>

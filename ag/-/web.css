@@ -11,14 +11,13 @@ body {
   background: white; transition: background .5s;
   height: 100%;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
   margin: 0;
   padding: 0;
 }
 
-#ag-app-charts {
+#ag-app-chart {
   width: 100%;
-  overflow: scroll;
-  -webkit-overflow-scrolling: touch;
 }
 
 .ag-chart {

@@ -2,9 +2,7 @@
 
 [https://yurybikuzin.github.io/tg2/](https://yurybikuzin.github.io/tg2/)
 
-# Task
-
-## [https://t.me/contest](https://t.me/contest), April 6, 2019
+# Task, [https://t.me/contest](https://t.me/contest), April 6, 2019
 
 Announcing Stage 2 of the Chart Coding Competition for Android, iOS and JavaScript developers. 
 

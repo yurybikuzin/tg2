@@ -4,6 +4,8 @@
 
 # Task
 
+## [https://t.me/contest](https://t.me/contest), April 6, 2019
+
 Announcing Stage 2 of the Chart Coding Competition for Android, iOS and JavaScript developers. 
 
 Dates: April 7-15. The last submission will be accepted via @jobs_bot at 11:59 PM CET, April 15.
@@ -20,7 +22,7 @@ Here are the 5 graphs expected in the contest:
 
 1. A line chart with 2 lines, exactly like in Stage 1 (Screenshot 1).
 
-Bonus goal: A line chart with 2 lines that zooms into another line chart with 2 lines (Screenshot 2), as shown on the first video below.
+Bonus goal: A line chart with 2 lines that zooms into another line chart with 3 lines (Screenshot 2), as shown on the first video below.
 
 2. A line chart with 2 lines and 2 Y axes (Screenshot 3). 
 
